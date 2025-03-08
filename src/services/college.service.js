@@ -121,7 +121,7 @@ class CollegeService {
         query = query.where('year', '==', criteria.year);
       }
       if (criteria.instituteCode) {
-        query = query.where('instituteCode', '==', criteria.instituteCode);
+        query = query.where('instituteCode', '==', Number(criteria.instituteCode));
       }
       if (criteria.category) {
         query = query.where('category', '==', criteria.category);
@@ -139,6 +139,8 @@ class CollegeService {
         ...doc.data()
       }));
 
+      console.log(criteria);
+
       if (criteria.instituteName) {
         const searchTerms = criteria.instituteName.toLowerCase().split(/\s+/);
         
@@ -149,13 +151,12 @@ class CollegeService {
             )
           );
 
-          console.dir(college, { depth: null });
           
 
           const nameMatch = college.instituteName.toLowerCase()
             .includes(criteria.instituteName.toLowerCase());
 
-          return keywordMatch || nameMatch;
+          return nameMatch;
         });
       }
 
